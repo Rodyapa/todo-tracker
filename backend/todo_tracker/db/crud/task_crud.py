@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from todo_tracker.db.models.task import Task
+from todo_tracker.db.models.task import Task, TaskStatus
 from todo_tracker.schemas import task_schemas
 from datetime import datetime
 from sqlalchemy import select, update
@@ -74,9 +74,12 @@ async def get_task(
 
 
 async def get_tasks(
-        session: AsyncSession
+        session: AsyncSession,
+        status: Optional[TaskStatus] = None
 ) -> List[Task]:
     stmt = select(Task)
+    if status:
+        stmt = stmt.where(Task.status == status.value)
     result = await session.execute(stmt)
     tasks = result.scalars()
     return tasks

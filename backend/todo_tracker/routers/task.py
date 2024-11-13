@@ -4,10 +4,10 @@ from fastapi import Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from todo_tracker.dependencies.db_dependencies import get_session
 from todo_tracker.db.crud import task_crud
-from todo_tracker.db.models.task import Task
+from todo_tracker.db.models.task import Task, TaskStatus
 from todo_tracker.dependencies.jwt_dependencies import get_current_user
 from todo_tracker.db.models.user import User
-from typing import List
+from typing import List, Optional
 
 
 router = APIRouter(
@@ -35,12 +35,14 @@ async def create_task(
 
 # GET REQUESTS
 @router.get('', status_code=status.HTTP_200_OK,
-                 response_model=List[task_schemas.TaskRead])
+            response_model=List[task_schemas.TaskRead])
 async def get_tasks(
-    session: AsyncSession = Depends(get_session)
+    session: AsyncSession = Depends(get_session),
+    status: Optional[TaskStatus] = None
 ):
     tasks: List[Task] = await task_crud.get_tasks(
-        session=session
+        session=session,
+        status=status
     )
     return tasks
 

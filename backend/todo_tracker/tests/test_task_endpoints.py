@@ -13,13 +13,15 @@ pytestmark = pytest.mark.asyncio(loop_scope="function")
 
 @pytest_asyncio.fixture(scope='function')
 async def create_task(create_new_user) -> Tuple[User, Task]:
-    async def make_task():
+    async def make_task(**kwargs):
         user = await create_new_user()
         task_data = {
                 'title': str(uuid.uuid4()),
                 'description': str(uuid.uuid4()),
                 'creator_id': user.id
             }
+        if 'status' in kwargs:
+            task_data['status'] = kwargs['status']
         task = Task(**task_data)
         async for session in get_test_session():
             session.add(task)
@@ -140,4 +142,27 @@ class TestTaskAPI:
         assert len(response_data) == 3, (
             'Response must contains list of tasks'
             'populated with 3 task instances'
+        )
+
+    async def test_user_can_get_tasks_with_specific_status(
+            self,
+            async_client,
+            create_task,
+    ):
+        planned_tasks = [await create_task() for task in range(3)]
+        completed_task = await create_task(status='завершена')
+
+        url = '/tasks'
+        query_params={
+            'status': 'завершена',
+        }
+        response = await async_client.get(url, params=query_params)
+
+        assert response.status_code == 200
+        response_data = response.json()
+        assert isinstance(response_data, list), (
+            'Response must contains list of tasks')
+        assert len(response_data) == 1, (
+            'Response must contains list of tasks '
+            'populated with 1 task instances'
         )
