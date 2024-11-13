@@ -11,7 +11,8 @@ class MainDBSettings(BaseSettings):
     DB_PORT: Optional[str] = '5432'
     DB_ADDRESS: Optional[str] = 'localhost'
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env",
+                                      extra='allow')
 
 
 class TestingSettings(BaseSettings):
@@ -25,4 +26,19 @@ class TestingSettings(BaseSettings):
     TEST_DB_PORT: Optional[str] = '5432'
     TEST_DB_ADDRESS: Optional[str] = 'localhost'
 
-    model_config = SettingsConfigDict(env_file=".env.test")
+    model_config = SettingsConfigDict(env_file=".env",
+                                      extra='allow')
+
+
+class JWTSettings(BaseSettings):
+    '''
+    Describes data used for JWT Token Authnetication
+    '''
+    JWT_SECRET_KEY: str
+    JWT_REFRESH_SECRET_KEY: str
+    JWT_ALGORITHM: Optional[str] = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: Optional[int] = 15
+    REFRESH_TOKEN_EXPIRE_DAYS: Optional[int] = 1
+
+    model_config = SettingsConfigDict(env_file=".env",
+                                      extra='allow')
