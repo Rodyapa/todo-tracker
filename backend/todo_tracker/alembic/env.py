@@ -7,6 +7,7 @@ from sqlalchemy import pool
 from alembic import context
 from todo_tracker.db.base import SQLALCHEMY_DATABASE_URL, Base
 from todo_tracker.db.models.user import User
+from todo_tracker.db.models.task import Task, TaskStatus
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

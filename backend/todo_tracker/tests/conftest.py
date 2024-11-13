@@ -12,6 +12,7 @@ from todo_tracker.dependencies.db_dependencies import get_session
 from todo_tracker.dependencies.env_dependencies import get_testing_settings
 from todo_tracker.main import app
 from todo_tracker.schemas import user_schemas
+from todo_tracker.utils.jwt import create_access_token
 
 database_data = get_testing_settings()
 
@@ -102,3 +103,16 @@ async def create_new_user(test_password: str):
             user = await user_crud.create_user(session=session, user=user_data)
         return user
     yield make_user
+
+
+# JWT Fixtures
+
+@pytest_asyncio.fixture
+async def get_authorization_header():
+    async def make_header(**kwargs):
+        access_token = await create_access_token(
+            data={"sub": kwargs['user'].username}
+        )
+        headers = {"Authorization": f"Bearer {access_token}", }
+        return headers
+    yield make_header

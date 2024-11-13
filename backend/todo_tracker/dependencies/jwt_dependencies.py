@@ -20,7 +20,7 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
 
-    payload = verify_token(token, token_settings.JWT_SECRET_KEY)
+    payload = await verify_token(token, token_settings.JWT_SECRET_KEY)
     if payload is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail='Invalid token')
