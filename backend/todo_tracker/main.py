@@ -11,7 +11,9 @@ async def lifespan(app: FastAPI):
     yield
     await redis_client.aclose()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title='Todo-tracker',
+    lifespan=lifespan)
 
 app.include_router(auth.router)
 app.include_router(task.router)

@@ -8,7 +8,7 @@ from todo_tracker.dependencies.db_dependencies import get_session
 from todo_tracker.schemas.jwt_token_schemas import TokenData
 from todo_tracker.utils.jwt import token_settings, verify_token
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 
 
 async def get_current_user(
