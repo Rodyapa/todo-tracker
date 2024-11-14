@@ -42,3 +42,12 @@ class JWTSettings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env",
                                       extra='allow')
+
+
+class RedisSettings(BaseSettings):
+    '''
+    Describes data used for Redis connection
+    '''
+    REDIS_HOST: Optional[str] = 'localhost'
+    REDIS_PORT: Optional[int] = 6379
+    
