@@ -41,7 +41,7 @@ sudo docker compose -f docker-compose.yml up --build
 
 ## Технологии:
     *Python
-    *Django
-    *Django REST framework
+    *FastAPI
+    *AIOHTTP
     *Poetry
-    *Unittest library 
+    *pytest library 
