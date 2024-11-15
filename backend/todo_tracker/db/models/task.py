@@ -1,10 +1,11 @@
-from sqlalchemy import (Integer, String, DateTime, ForeignKey, Enum,)
-from sqlalchemy import func as sql_function_generator
-from sqlalchemy.orm import mapped_column, Mapped
-from typing import Optional
-from todo_tracker.db.base import Base
-from datetime import datetime, timezone
 import enum
+from typing import Optional
+
+from sqlalchemy import DateTime, Enum, ForeignKey, Integer, String
+from sqlalchemy import func as sql_function_generator
+from sqlalchemy.orm import Mapped, mapped_column
+
+from todo_tracker.db.base import Base
 
 
 class TaskStatus(str, enum.Enum):

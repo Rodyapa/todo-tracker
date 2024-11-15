@@ -1,7 +1,9 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+
 from todo_tracker.redis.redis_config import get_redis_client
 from todo_tracker.routers import auth, task
-from contextlib import asynccontextmanager
 
 
 @asynccontextmanager

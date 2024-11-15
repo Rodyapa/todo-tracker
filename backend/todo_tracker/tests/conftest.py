@@ -20,7 +20,7 @@ database_data = get_testing_settings()
 SQLALCHEMY_TEST_DATABASE_URL = (
     f"postgresql+asyncpg://{database_data.TEST_DB_USERNAME}:"
     f"{database_data.TEST_DB_PASSWORD}"
-    f"@{database_data.TEST_DB_ADDRESS}/{database_data.TEST_DB_NAME}"
+    f"@{database_data.TEST_DB_HOST}/{database_data.TEST_DB_NAME}"
     )
 # Instance of Async Engine connected to described database
 async_engine = create_async_engine(

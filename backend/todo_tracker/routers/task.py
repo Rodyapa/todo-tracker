@@ -1,14 +1,14 @@
-from fastapi import APIRouter
-from todo_tracker.schemas import task_schemas
-from fastapi import Depends, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from todo_tracker.dependencies.db_dependencies import get_session
-from todo_tracker.db.crud import task_crud
-from todo_tracker.db.models.task import Task, TaskStatus
-from todo_tracker.dependencies.jwt_dependencies import get_current_user
-from todo_tracker.db.models.user import User
 from typing import List, Optional
 
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from todo_tracker.db.crud import task_crud
+from todo_tracker.db.models.task import Task, TaskStatus
+from todo_tracker.db.models.user import User
+from todo_tracker.dependencies.db_dependencies import get_session
+from todo_tracker.dependencies.jwt_dependencies import get_current_user
+from todo_tracker.schemas import task_schemas
 
 router = APIRouter(
     prefix='/tasks',
@@ -50,8 +50,8 @@ async def get_tasks(
 @router.get("/{task_id}", status_code=status.HTTP_200_OK,
             response_model=task_schemas.TaskRead)
 async def get_task(
-    task_id: int,
-    session: AsyncSession = Depends(get_session)):
+        task_id: int,
+        session: AsyncSession = Depends(get_session)):
     task_db: Task = await task_crud.get_task(
         session=session, task_id=task_id
     )
@@ -59,9 +59,9 @@ async def get_task(
 
 
 # PUT REQUESTS
-@router.put("/{task_id}", status_code=status.HTTP_200_OK,
-                 response_model=task_schemas.TaskRead,
-                 )
+@router.put("/{task_id}",
+            status_code=status.HTTP_200_OK,
+            response_model=task_schemas.TaskRead,)
 async def update_task(
     task_data: task_schemas.TaskUpdate,
     task_id: int,

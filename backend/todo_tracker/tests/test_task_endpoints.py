@@ -1,12 +1,12 @@
+import uuid
+from typing import Tuple
+
 import pytest
 import pytest_asyncio
 
-from todo_tracker.tests.conftest import get_test_session
-
 from todo_tracker.db.models.task import Task
 from todo_tracker.db.models.user import User
-import uuid
-from typing import Tuple
+from todo_tracker.tests.conftest import get_test_session
 
 pytestmark = pytest.mark.asyncio(loop_scope="function")
 
@@ -130,7 +130,7 @@ class TestTaskAPI:
     async def test_user_can_get_all_tasks(
         self, async_client, create_task
     ):
-        tasks = [await create_task() for task in range(3)]
+        [await create_task() for task in range(3)]
 
         url = '/tasks'
         response = await async_client.get(url)
@@ -149,11 +149,11 @@ class TestTaskAPI:
             async_client,
             create_task,
     ):
-        planned_tasks = [await create_task() for task in range(3)]
-        completed_task = await create_task(status='завершена')
+        [await create_task() for task in range(3)]  # Planned tasks
+        await create_task(status='завершена')  # Completed task
 
         url = '/tasks'
-        query_params={
+        query_params = {
             'status': 'завершена',
         }
         response = await async_client.get(url, params=query_params)

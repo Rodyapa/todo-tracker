@@ -1,12 +1,14 @@
-from typing import Annotated
 from datetime import timedelta
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
-from todo_tracker.redis.redis_config import get_redis_client
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from todo_tracker.db.crud import user_crud
 from todo_tracker.dependencies.db_dependencies import get_session
+from todo_tracker.redis.redis_config import get_redis_client
 from todo_tracker.schemas.jwt_token_schemas import JWTTokens, RefreshToken
 from todo_tracker.schemas.user_schemas import UserRead
 from todo_tracker.utils.auth import authenticate_user
@@ -60,6 +62,13 @@ async def create_token(
 async def refresh_token(
         token: RefreshToken,
         redis_client: Redis = Depends(get_redis_client)):
+    '''Returns new access token if valid refresh token was provided.
+    Returns:
+        JWTTokens: access token, refresh token and token type.
+
+    Raises:
+        HTTPException: If token validation fails,
+        raises a 401 Unauthorized error.'''
     payload = await verify_token(
         token=token.refresh_token,
         secret_key=token_settings.JWT_REFRESH_SECRET_KEY)

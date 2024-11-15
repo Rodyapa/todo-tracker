@@ -1,8 +1,9 @@
-from pydantic import BaseModel
-from typing import Optional, List
-from .user_schemas import UserRead
-from todo_tracker.db.models.task import Task, TaskStatus
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel
+
+from todo_tracker.db.models.task import TaskStatus
 
 
 class TaskBase(BaseModel):

@@ -14,6 +14,21 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 async def get_current_user(
           token: str = Depends(oauth2_scheme),
           db: AsyncSession = Depends(get_session)) -> User:
+    """
+    Retrieves the current authenticated user based on a JWT token.
+
+    Args:
+        token (str): JWT token provided by the user for authentication.
+        db (AsyncSession): Database session used to retrieve user information.
+
+    Returns:
+        User: The authenticated user associated with the token.
+
+    Raises:
+        HTTPException: If token validation fails or user is not found,
+        raises a 401 Unauthorized error
+        with a 'Bearer' WWW-Authenticate header.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

@@ -9,10 +9,10 @@ class MainDBSettings(BaseSettings):
     DB_USERNAME: str
     DB_NAME: str
     DB_PORT: Optional[str] = '5432'
-    DB_ADDRESS: Optional[str] = 'localhost'
+    DB_HOST: Optional[str] = 'localhost'
 
-    model_config = SettingsConfigDict(env_file=".env",
-                                      extra='allow')
+    # model_config = SettingsConfigDict(env_file=".env",
+    #                                  extra='allow')
 
 
 class TestingSettings(BaseSettings):
@@ -24,7 +24,7 @@ class TestingSettings(BaseSettings):
     TEST_DB_USERNAME: str
     TEST_DB_NAME: str
     TEST_DB_PORT: Optional[str] = '5432'
-    TEST_DB_ADDRESS: Optional[str] = 'localhost'
+    TEST_DB_HOST: Optional[str] = 'localhost'
 
     model_config = SettingsConfigDict(env_file=".env",
                                       extra='allow')
@@ -40,8 +40,8 @@ class JWTSettings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: Optional[int] = 15
     REFRESH_TOKEN_EXPIRE_DAYS: Optional[int] = 1
 
-    model_config = SettingsConfigDict(env_file=".env",
-                                      extra='allow')
+    # model_config = SettingsConfigDict(env_file=".env",
+    #                                   extra='allow')
 
 
 class RedisSettings(BaseSettings):
@@ -50,4 +50,3 @@ class RedisSettings(BaseSettings):
     '''
     REDIS_HOST: Optional[str] = 'localhost'
     REDIS_PORT: Optional[int] = 6379
-    

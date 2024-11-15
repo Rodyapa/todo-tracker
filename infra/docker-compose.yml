@@ -29,11 +29,9 @@ services:
       dockerfile: ../gateway/Dockerfile
     depends_on:
       - backend
-    environment:
-      - AIOHTTP_HOST=0.0.0.0
-      - AIOHTTP_PORT=8080
+    env_file: .env
     ports:
-      - "8080:8080"
+      - "8080:${AIOHTTP_PORT}"
 
   redis:
     image: redis:7
